@@ -1,0 +1,183 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "File Upload API",
+    "version": "1.0.0",
+    "description": "API for uploading files to the server."
+  },
+  "servers": [
+    {
+      "url": "https://api.example.com/v1",
+      "description": "Production server"
+    },
+    {
+      "url": "https://api.staging.example.com/v1",
+      "description": "Staging server"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "Image": {
+        "required": [
+          "width",
+          "height",
+          "src"
+        ],
+        "properties": {
+          "width": {
+            "type": "integer",
+            "example": 200
+          },
+          "height": {
+            "type": "integer",
+            "example": 200
+          },
+          "src": {
+            "type": "string",
+            "example": "https://printu.test/media/catalog/cache/vH72u0x7Y4uf0Tdd1j%252F34EFgAluLOcapxlHI0rcqWYDEZi8ph6XztIGW4VGE1cuYIyIE/image.jpg"
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/upload": {
+      "post": {
+        "summary": "Upload a file",
+        "description": "Endpoint for uploading a file to the server.",
+        "parameters": [],
+        "requestBody": {
+          "description": "The file parts to upload",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "part": {
+                      "type": "integer"
+                    },
+                    "etag": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "part",
+                    "etag"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response with the uploaded file metadata.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "oneOf": [
+                    {
+                      "required": [
+                        "id",
+                        "timestamp",
+                        "source",
+                        "height",
+                        "width",
+                        "mime",
+                        "display"
+                      ],
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 2058959
+                        },
+                        "timestamp": {
+                          "type": "integer",
+                          "example": 1516354800
+                        },
+                        "source": {
+                          "type": "string",
+                          "example": "instagram"
+                        },
+                        "height": {
+                          "type": "integer",
+                          "example": 1080
+                        },
+                        "width": {
+                          "type": "integer",
+                          "example": 1080
+                        },
+                        "mime": {
+                          "type": "string",
+                          "example": "image/jpeg"
+                        },
+                        "display": {
+                          "type": "object",
+                          "properties": {
+                            "thumbnail": {
+                              "$ref": "#/components/schemas/Image"
+                            },
+                            "preview": {
+                              "$ref": "#/components/schemas/Image"
+                            },
+                            "square": {
+                              "$ref": "#/components/schemas/Image"
+                            },
+                            "original": {
+                              "$ref": "#/components/schemas/Image"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "required": [
+                        "id",
+                        "timestamp",
+                        "source",
+                        "mime"
+                      ],
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 2058959
+                        },
+                        "timestamp": {
+                          "type": "integer",
+                          "example": 1516354800
+                        },
+                        "source": {
+                          "type": "string",
+                          "example": "instagram"
+                        },
+                        "mime": {
+                          "type": "string",
+                          "example": "video/mp4"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+
+
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
