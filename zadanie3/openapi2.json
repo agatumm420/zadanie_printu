@@ -37,6 +37,54 @@
             "example": "https://printu.test/media/catalog/cache/vH72u0x7Y4uf0Tdd1j%252F34EFgAluLOcapxlHI0rcqWYDEZi8ph6XztIGW4VGE1cuYIyIE/image.jpg"
           }
         }
+      },"ErrorModel": {
+        "type": "object",
+        "required": [
+
+          "errorCode",
+          "userMessage",
+          "devMessage",
+          "more",
+          "applicationCode"
+        ],
+        "properties": {
+
+          "errorCode": {
+            "type": "integer",
+            "minimum": 400,
+            "maximum": 500
+          },
+          "userMessage": {
+            "type": "string"
+          },
+          "devMessage": {
+            "type": "string"
+          },
+          "more": {
+            "type": "string"
+          },
+          "applicationCode": {
+            "type": "string"
+          }
+        }
+      },
+      "ExtendedErrorModel": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ErrorModel"
+          },
+          {
+            "type": "object",
+            "required": [
+              "rootCause"
+            ],
+            "properties": {
+              "rootCause": {
+                "type": "string"
+              }
+            }
+          }
+        ]
       }
     }
   },
@@ -161,6 +209,57 @@
                       }
                     }
                   ]
+                }
+              }
+
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
                 }
               }
             }
