@@ -1,9 +1,10 @@
 <?php
 ini_set('memory_limit', '1024M');
-function hashOrder($input){
+function hashOrder($input) {
     $m = 10000019;
     $base = 10;
     $result = 0;
+
     $digits = str_split((string) $input);
     foreach ($digits as $digit) {
         $result = ($result * $base + (int) $digit) % $m;
@@ -18,7 +19,6 @@ function hashOrder($input){
         array_push($digits, (string) ($input % 10));
         $hash = str_pad((string) ($result % $m), 7, '0', STR_PAD_LEFT);
     }
-
 
     $unique[$hash] = true;
 
